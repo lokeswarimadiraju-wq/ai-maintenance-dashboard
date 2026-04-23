@@ -1,11 +1,7 @@
 import streamlit as st
 import numpy as np
-import time
-import joblib
 
-# Load model and scaler (we will save them next)
-model = None
-scaler = None
+st.title("AI Predictive Maintenance System")
 
 def get_status(prob):
     if prob < 0.3:
@@ -15,27 +11,15 @@ def get_status(prob):
     else:
         return "RED"
 
-st.title("AI Predictive Maintenance System")
-
-placeholder = st.empty()
-
-while True:
-    sample = np.random.rand(1, scaler.n_features_in_)
-    sample_scaled = scaler.transform(sample)
-
-    if model is not None:
-        sample = np.random.rand(1, 5)
-        prob = model.predict_proba(sample)[0][1]
-    else:
-        prob = np.random.rand()
+if st.button("Check Status"):
+    prob = np.random.rand()
     status = get_status(prob)
 
-    with placeholder.container():
-        if status == "GREEN":
-            st.success("🟢 Machine Safe")
-        elif status == "YELLOW":
-            st.warning("🟡 Medium Risk")
-        else:
-            st.error("🔴 Danger! Failure Expected")
+    st.write("Probability:", prob)
 
-    time.sleep(2)
+    if status == "GREEN":
+        st.success("🟢 Safe")
+    elif status == "YELLOW":
+        st.warning("🟡 Risk")
+    else:
+        st.error("🔴 Danger")

@@ -4,8 +4,8 @@ import time
 import joblib
 
 # Load model and scaler (we will save them next)
-model = joblib.load("model.pkl")
-scaler = joblib.load("scaler.pkl")
+model = nonr
+scaler = none
 
 def get_status(prob):
     if prob < 0.3:

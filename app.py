@@ -23,3 +23,17 @@ if st.button("Check Status"):
         st.warning("🟡 Risk")
     else:
         st.error("🔴 Danger")
+# -----------------------------
+# 📊 SENSOR DATA GRAPH
+# -----------------------------
+import pandas as pd
+
+st.markdown("### 📊 Machine Sensor Data (Live)")
+
+data = pd.DataFrame({
+    "Time": range(20),
+    "Temperature": np.random.randint(290, 320, 20),
+    "Pressure": np.random.randint(50, 100, 20)
+})
+
+st.line_chart(data.set_index("Time"))

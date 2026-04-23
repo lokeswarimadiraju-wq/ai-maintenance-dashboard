@@ -4,7 +4,7 @@ import time
 import joblib
 
 # Load model and scaler (we will save them next)
-model = nonr
+model = none
 scaler = none
 
 def get_status(prob):

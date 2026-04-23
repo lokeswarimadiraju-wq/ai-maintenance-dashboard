@@ -4,8 +4,8 @@ import time
 import joblib
 
 # Load model and scaler (we will save them next)
-model = none
-scaler = none
+model = None
+scaler = None
 
 def get_status(prob):
     if prob < 0.3:
@@ -23,7 +23,11 @@ while True:
     sample = np.random.rand(1, scaler.n_features_in_)
     sample_scaled = scaler.transform(sample)
 
-    prob = model.predict_proba(sample_scaled)[0][1]
+    if model is not None:
+        sample = np.random.rand(1, 5)
+        prob = model.predict_proba(sample)[0][1]
+    else:
+        prob = np.random.rand()
     status = get_status(prob)
 
     with placeholder.container():

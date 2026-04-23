@@ -1,8 +1,19 @@
 import streamlit as st
 import numpy as np
+import pandas as pd
+from datetime import datetime, timedelta
 
-st.title("AI Predictive Maintenance System")
+# -----------------------------
+# PAGE SETTINGS
+# -----------------------------
+st.set_page_config(page_title="AI Predictive Maintenance", layout="centered")
 
+st.title("🤖 AI Powered Predictive Maintenance System")
+st.markdown("### Real-Time Machine Health Monitoring Dashboard")
+
+# -----------------------------
+# STATUS FUNCTION
+# -----------------------------
 def get_status(prob):
     if prob < 0.3:
         return "GREEN"
@@ -11,24 +22,49 @@ def get_status(prob):
     else:
         return "RED"
 
-if st.button("Check Status"):
+# -----------------------------
+# BUTTON
+# -----------------------------
+if st.button("🔍 Check Machine Status"):
+
+    # Generate probability
     prob = np.random.rand()
     status = get_status(prob)
 
-    st.write("Probability:", prob)
+    # -----------------------------
+    # FAILURE TIME CALCULATION
+    # -----------------------------
+    current_time = datetime.now()
 
     if status == "GREEN":
-        st.success("🟢 Safe")
+        failure_time = current_time + timedelta(days=5)
     elif status == "YELLOW":
-        st.warning("🟡 Risk")
+        failure_time = current_time + timedelta(hours=12)
     else:
-        st.error("🔴 Danger")
-# -----------------------------
-# 📊 SENSOR DATA GRAPH
-# -----------------------------
-import pandas as pd
+        failure_time = current_time + timedelta(hours=2)
 
-st.markdown("### 📊 Machine Sensor Data (Live)")
+    # -----------------------------
+    # DISPLAY OUTPUT
+    # -----------------------------
+    st.write(f"🔢 Failure Probability: **{prob:.2f}**")
+
+    if status == "GREEN":
+        st.success("🟢 Machine is SAFE")
+    elif status == "YELLOW":
+        st.warning("🟡 Medium Risk - Maintenance Needed")
+    else:
+        st.error("🔴 High Risk - Failure Expected!")
+
+    # -----------------------------
+    # DISPLAY FAILURE TIME
+    # -----------------------------
+    st.markdown("### ⏰ Predicted Failure Time")
+    st.success(failure_time.strftime("%Y-%m-%d %H:%M:%S"))
+
+# -----------------------------
+# GRAPH SECTION
+# -----------------------------
+st.markdown("### 📊 Machine Sensor Data")
 
 data = pd.DataFrame({
     "Time": range(20),
